@@ -242,7 +242,7 @@ const legendY = 300;
     .attr("y", legendY)
     .attr("width", legendWidth)
     .attr("height", legendHeight)
-    .attr("fill", "#f2eb18")
+    .attr("fill", "#ffffff")
     .attr("stroke", "#ccc")
     .attr("stroke-width", 1);
 
@@ -395,7 +395,7 @@ svg.append("text")
             .attr("y", legendY)
             .attr("width", legendWidth)
             .attr("height", legendHeight)
-            .attr("fill", "#f2eb18")
+            .attr("fill", "#ffffff")
             .attr("stroke", "#ccc")
             .attr("stroke-width", 1);
         
