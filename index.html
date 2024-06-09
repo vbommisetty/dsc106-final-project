@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Leaving California</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+
+    <header>
+        Visualizing Migration Trends From California
+    </header>
+    <div id="content">
+        <div class="text-block">
+            <p>
+                California is one of the most populous states in the nation, with a strong economy built around technological innovation.
+                Over the past two decades, its population has continued to grow as more and more people flock to the state in pursuit of 
+                success. Below is a plot of the state's population trend over time.
+            </p>
+        </div>
+
+        <div id="line-plot-container">
+            <svg id="line-plot"></svg>
+            <div id="tooltip-line" class="tooltip"></div>
+        </div>
+
+        <div class="text-block">
+            <p>
+                It's clear that California's population has grown immensely over time. However, there's something interesting about the past few years
+                that stands out: California's population has seen a clear dip starting right before the start of the new decade. California,
+                the supposed golden state where everyone wanted to live, suddenly didn't seem to be like a hot ticket. This piqued our interest, and we set out to find
+                how migration patterns were shifting in California, focusing on two times of crisis: 2008 and the start of the 2020s.
+            </p>
+        </div>
+
+        <div class="text-block">
+            <p>
+                This visualization shows the migration trends from California to other states in the USA.
+                The data highlights the number of people moving from California to various states across the country.
+            </p>
+        </div>
+        
+        <div id="map-container">
+            <svg id="map"></svg>
+            <div id="tooltip" class="tooltip"></div>
+        </div>
+        <div class="text-block">
+            <p>
+                The arrows indicate significant migration flows, where more than 10,000 people have moved from California
+                to the respective states. Hover over the states to see more details about the migration numbers.
+            </p>
+            <p>
+                The map shows a pretty healthy mix of migration both towards and from California. One trend that stands out is where 
+                people are going to from California, and where they're coming from. The east coast seems to be the most popular immigrators 
+                for California, while former Californians stay in the West, flocking mostly north or towards Texas, the most popular state to 
+                go to from California. These trends for the most part however drastically change when looking at 2022 data. 
+            </p>
+        </div>
+        <div id="map-container2">
+            <svg id="map2"></svg>
+            <div id="tooltip2" class="tooltip2"></div>
+        </div>
+
+        <div class = "text-block">
+            <p>
+                What's obvious from the above visualization is that migration away from California has become far more popular than migration
+                to California. In fact, there is only one state with a significant level of migration to California: New Jersey. The vast majority 
+                of people are traveling to other states, and the number of states with significant level of migration away from California has also
+                significantly increased. Overall, we can now see clearly why population in California has dipped/flatilined in recent years: people are 
+                moving away and not enough people are coming in.
+            </p>
+            <p>
+                What makes this even more interesting is where people are going to from California. The previous map showed people staying in the West, either moving north 
+                or specifically to Texas. While this remains in 2022, what's fascinating is how many people are now moving into the south, in states like
+                Alabama and Tennessee. Overall, as compared to 2008, people migrating from California have branched out which regions they would be willing to go to.
+            </p>
+
+            <p>
+                To explore this further, we focused on 3 specific aspects about California that could be causing migration: housing prices,
+                taxes, and job opportunity. Hover over each of the icons below to learn more about these:
+            </p>
+        </div>
+
+
+        
+          
+
+        <div id="svg-image-container" style="margin-top: 100px">
+            <svg id="image-svg" width="450" height="450"></svg>
+            <svg id="bar-chart" width="600" height="600"></svg>
+        </div>
+        
+        
+
+
+        <div id="image-container1">
+            <svg id="svg-image-container1"></svg>
+            <svg id="bar-chart2" width="600" height="600"></svg>
+            
+
+        </div>
+
+        
+
+        <div id="image-container2">
+            <svg id="svg-image-container2"></svg>
+            <svg id="bar-chart3" width="600" height="600"></svg>
+        </div>
+
+        <div class = "text-block" style="margin-top: 125px;">
+            <p>
+                As you can see above, California is 2nd in housing prices as well as first in overall income tax rate. Essentially,
+                it's very pricy to live in California, providing incentive to people to move further south where housing and taxes are cheaper.
+                What's even more interesting is that two of the states people are moving to the most, Florida and Texas, are in the top 10 in job growth
+                in recent years. This shows another reason why people could be moving to those states: there's simply more of an economic opportunity there than in California, 
+                a fascinating role-reversal to what we're used to.
+            </p>
+            <p>
+                Overall, California is still one of the most populous and prosperous states in the country. However, times coudl be changing. As California
+                remains expensive and more and more people, the way we see the state could change forever.
+            </p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
