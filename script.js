@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Line plot data
+    // Line plot
     const lineData = [
         { year: 2022, population: 39040616, change: -0.27 },
         { year: 2021, population: 39145060, change: -0.91 },
@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { year: 2010, population: 37319550, change: 0.97 }
     ];
 
-    // Line plot setup
     const margin = { top: 20, right: 30, bottom: 30, left: 60 };
     const width = 800 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
@@ -60,10 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .attr('stroke-width', 1.5)
         .attr('d', line);
 
-    // Line plot tooltip
     const tooltipLine = d3.select('#tooltip-line');
 
-    // Create circles for each data point
     svgLinePlot.selectAll('circle')
         .data(lineData)
         .enter()
@@ -122,12 +119,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .domain([0, maxMigration])
             .range(["#798894", "#798894"]);
 
-        // Define a scale for the stroke width
+
         const strokeWidthScale = d3.scaleLinear()
             .domain([0, maxMigration])
             .range([1, 15]);
 
-        // Draw states
         svg.append("text")
             .attr("x", width / 2)
             .attr("y", +30)
@@ -161,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 tooltip.style("visibility", "hidden");
             });
 
-        // Define arrow markers
         svg.append("defs").append("marker")
             .attr("id", "arrowhead-green")
             .attr("viewBox", "0 0 10 10")
@@ -187,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr("d", "M 0 0 L 10 5 L 0 10 Z")
             .attr("fill", "#bd2300");
 
-        // Calculate centroids and filter states with migration > 20000
         const centroids = geojsonData.features.map(feature => {
             const centroid = path.centroid(feature);
             return {
@@ -198,26 +192,25 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         });
 
-        // Filter states with migration > 20000 and exclude California itself
+
         const backfilteredCentroids = centroids.filter(d => d.going_to_california - d.coming_from_california > 4500 && d.name !== "California");
 
-        // Filter states with migration > 10000 and exclude California itself
+
         const filteredCentroids = centroids.filter(d => d.going_to_california - d.coming_from_california < -10000 && d.name !== "California");
 
         const californiaCentroid = centroids.find(d => d.name === "California").centroid;
         
 
-        // Function to generate curved path data
         function generateCurvePath(source, target) {
             const dx = target[0] - source[0];
             const dy = target[1] - source[1];
-            const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; // Adjust curvature by changing the multiplier
+            const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; 
             return `M${source[0]},${source[1]}A${dr},${dr} 0 0,1 ${target[0]},${target[1]}`;
         }
         function generateCurvePath_2(source, target) {
             const dx = target[0] - source[0];
             const dy = target[1] - source[1] + 100;
-            const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; // Adjust curvature by changing the multiplier
+            const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; 
             return `M${source[0]},${source[1]}A${dr},${dr} 0 0,1 ${target[0]},${target[1]+15}`;
         }
         const legendWidth = 120;
@@ -226,7 +219,6 @@ const legendX = 680;
 const legendY = 300;
 
 
-        // Draw curved paths from California to each filtered state centroid
         svg.selectAll("path.to")
             .data(filteredCentroids)
             .enter()
@@ -246,14 +238,12 @@ const legendY = 300;
     .attr("stroke", "#ccc")
     .attr("stroke-width", 1);
 
-// Add legend title text
 svg.append("text")
     .attr("x", legendX + legendWidth/4)
     .attr("y", legendY + 15)
     .text("Legend")
     .attr("font-weight", "bold");
 
-// Add green arrow pointing to the right
 svg.append("line")
     .attr("x1", legendX +110)
     .attr("y1", legendY + 55)
@@ -275,7 +265,6 @@ svg.append("line")
     .attr("d", "M 0 0 L 10 5 L 0 10 Z")
     .attr("fill", "green");
 
-// Add red arrow pointing to the left
 svg.append("line")
     .attr("x1", legendX +75)
     .attr("y1", legendY + 120)
@@ -299,7 +288,6 @@ svg.append("line")
     .attr("d", "M 0 0 L 10 5 L 0 10 Z")
     .attr("fill", "red");
 
-// Add subtext for arrows
 svg.append("text")
     .attr("x", legendX +5 )
     .attr("y", legendY + 60)
@@ -320,7 +308,6 @@ svg.append("text")
     .attr("y", legendY + 145)
     .text(">10000 Net Migration")
     .attr("font-size", "12px");
-        // Draw curved paths from each filtered state centroid back to California
         svg.selectAll("path.from")
             .data(backfilteredCentroids)
             .enter()
@@ -331,7 +318,7 @@ svg.append("text")
             .attr("stroke-width", d => strokeWidthScale(d.coming_from_california)*1.5)
             .attr("fill", "none")
             .attr("marker-end", "url(#arrowhead-green)");
-        // ####
+ 
         svg2.selectAll("path")
             .data(geojsonData.features)
             .enter()
@@ -366,7 +353,7 @@ svg.append("text")
             .text("Migration to and from California (2022)");
             
 
-        // Define arrow markers
+
         svg2.append("defs").append("marker")
             .attr("id", "arrowhead-green")
             .attr("viewBox", "0 0 10 10")
@@ -399,14 +386,12 @@ svg.append("text")
             .attr("stroke", "#ccc")
             .attr("stroke-width", 1);
         
-        // Add legend title text
         svg2.append("text")
             .attr("x", legendX + legendWidth/4)
             .attr("y", legendY + 15)
             .text("Legend")
             .attr("font-weight", "bold");
         
-        // Add green arrow pointing to the right
         svg2.append("line")
             .attr("x1", legendX +110)
             .attr("y1", legendY + 55)
@@ -428,7 +413,6 @@ svg.append("text")
             .attr("d", "M 0 0 L 10 5 L 0 10 Z")
             .attr("fill", "green");
         
-        // Add red arrow pointing to the left
         svg2.append("line")
             .attr("x1", legendX +75)
             .attr("y1", legendY + 120)
@@ -452,7 +436,6 @@ svg.append("text")
             .attr("d", "M 0 0 L 10 5 L 0 10 Z")
             .attr("fill", "red");
         
-        // Add subtext for arrows
         svg2.append("text")
             .attr("x", legendX +5 )
             .attr("y", legendY + 60)
@@ -474,7 +457,6 @@ svg.append("text")
             .text(">10000 Net Migration")
             .attr("font-size", "12px");
 
-        // Calculate centroids and filter states with migration > 20000
         const centroids2 = geojsonData.features.map(feature => {
             const centroid2 = path2.centroid(feature);
             return {
@@ -485,17 +467,14 @@ svg.append("text")
             };
         });
 
-        // Filter states with migration > 20000 and exclude California itself
         const backfilteredCentroids2 = centroids2.filter(d => d.going_to_california2 - d.coming_from_california2 > 4500 && d.name !== "California");
 
-        // Filter states with migration > 10000 and exclude California itself
         const filteredCentroids2 = centroids2.filter(d => d.going_to_california2 - d.coming_from_california2 < -10000 && d.name !== "California");
 
         const californiaCentroid2 = centroids2.find(d => d.name === "California").centroid;
         
 
 
-        // Draw curved paths from California to each filtered state centroid
         svg2.selectAll("path.to")
             .data(filteredCentroids2)
             .enter()
@@ -507,7 +486,6 @@ svg.append("text")
             .attr("fill", "none")
             .attr("marker-end", "url(#arrowhead-red)");
 
-        // Draw curved paths from each filtered state centroid back to California
         svg2.selectAll("path.from")
             .data(backfilteredCentroids2)
             .enter()
@@ -528,12 +506,10 @@ svg.append("text")
     
     
 
-    // Add an image to the new SVG container
     svgImageContainer.append('image')
-    .attr('xlink:href', 'house.jpg') // Replace with the path to your image
+    .attr('xlink:href', 'house.jpg')
     .attr('width', 250)
     .attr('height', 250)
-    // .attr('class', 'hover-image')
     .on('mouseover', function() {
         d3.select('#bar-chart').style('opacity', 1);
         d3.select('#image-svg').style('opacity', 0);
@@ -547,34 +523,27 @@ svg.append("text")
     
 
 
-// Load data from CSV
 d3.csv('h_price.csv').then(function(data) {
-    // Parse the price as a number
     data.forEach(d => d.price = +d.price);
 
-    // Sort states by average price in descending order
     data.sort((a, b) => b.price - a.price);
     
-    // Select top ten states
     const topTenStates = data.slice(0, 10);
     
-    // Create scales for the bar graph
     const xScale = d3.scaleBand()
         .domain(topTenStates.map(d => d.state))
-        .range([60, 400]) // Adjusted range to accommodate labels
+        .range([60, 400]) 
         .padding(0.1);
     
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(topTenStates, d => d.price)])
-        .range([400, 40]); // Adjusted range to accommodate labels
+        .range([400, 40]); 
     
-    // Create SVG container for the bar graph
     const svg = d3.select('#bar-chart')
         .attr('width', 500)
         .attr('height', 500)
         .attr('transform','translate(200,-100)');
     
-    // Create bars
     svg.selectAll('.bar')
         .data(topTenStates)
         .enter().append('rect')
@@ -585,10 +554,9 @@ d3.csv('h_price.csv').then(function(data) {
         .attr('height', d => 400 - yScale(d.price))
         .attr('fill', d => d.state === 'California' ? 'red' : 'steelblue');
     
-    // Add labels for states on x-axis
     svg.append('g')
         .attr('class', 'x-axis')
-        .attr('transform', `translate(0, 400)`) // Position x-axis at bottom
+        .attr('transform', `translate(0, 400)`) 
         .call(d3.axisBottom(xScale))
         .selectAll('text')
         .attr('transform', 'rotate(-45)')
@@ -596,13 +564,11 @@ d3.csv('h_price.csv').then(function(data) {
         .attr('x', -10)
         .attr('y', 0);
     
-    // Add labels for price on y-axis
     svg.append('g')
         .attr('class', 'y-axis')
-        .attr('transform', `translate(60, 0)`) // Position y-axis at left
+        .attr('transform', `translate(60, 0)`) 
         .call(d3.axisLeft(yScale));
 
-    // Add x-axis label
     svg.append('text')
         .attr('class', 'x-axis-label')
         .attr('x', 230)
@@ -610,7 +576,6 @@ d3.csv('h_price.csv').then(function(data) {
         .attr('text-anchor', 'middle')
         .text('State');
 
-    // Add y-axis label
     svg.append('text')
         .attr('class', 'y-axis-label')
         .attr('transform', 'rotate(-90)')
@@ -644,11 +609,10 @@ d3.csv('h_price.csv').then(function(data) {
         .attr('height', 250)
         .attr('transform','translate(100,0)');
 
-    // Add an image to the new SVG container
     svgImageContainer1.append('image')
-        .attr('xlink:href', 'tax.jpg') // Replace with the path to your image
+        .attr('xlink:href', 'tax.jpg') 
         .attr('width', 250)
-        .attr('height', 250) // Set X position for centering
+        .attr('height', 250) 
         .attr('y', +1)
         
         .on('mouseover', function() {
@@ -661,28 +625,22 @@ d3.csv('h_price.csv').then(function(data) {
         });
     
     
-// Load data from CSV
 d3.csv('taxes.csv').then(function(data) {
-    // Sort the data by IncomeTaxRate in descending order
     data.sort((a, b) => parseFloat(b.IncomeTaxRate) - parseFloat(a.IncomeTaxRate));
 
-    // Select the top 10 states
     const topTenStates = data.slice(0, 10);
 
-    // Create scales for the bar graph
     const xScale = d3.scaleBand()
         .domain(topTenStates.map(d => d.State))
-        .range([60, 400]) // Adjusted range to accommodate labels
+        .range([60, 400])
         .padding(0.1);
 
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(topTenStates, d => parseFloat(d.IncomeTaxRate))])
-        .range([400, 40]); // Adjusted range to accommodate labels
+        .range([400, 40]); 
 
-    // Create SVG container for the bar graph
     const svg = d3.select('#bar-chart2').attr('transform','translate(200,-100)');
 
-    // Create bars
     const bars = svg.selectAll('.bar')
         .data(topTenStates)
         .enter().append('rect')
@@ -693,10 +651,9 @@ d3.csv('taxes.csv').then(function(data) {
         .attr('height', d => 400 - yScale(parseFloat(d.IncomeTaxRate)))
         .attr('fill', d => d.State === 'California' ? 'red' : 'steelblue');
 
-    // Add labels for states on x-axis
     svg.append('g')
         .attr('class', 'x-axis')
-        .attr('transform', `translate(0, 400)`) // Position x-axis at bottom
+        .attr('transform', `translate(0, 400)`) 
         .call(d3.axisBottom(xScale))
         .selectAll('text')
         .attr('transform', 'rotate(-45)')
@@ -704,13 +661,11 @@ d3.csv('taxes.csv').then(function(data) {
         .attr('x', -10)
         .attr('y', 0);
 
-    // Add labels for rates on y-axis
     svg.append('g')
         .attr('class', 'y-axis')
-        .attr('transform', `translate(60, 0)`) // Position y-axis at left
+        .attr('transform', `translate(60, 0)`) 
         .call(d3.axisLeft(yScale));
 
-    // Add x-axis label
     svg.append('text')
         .attr('class', 'x-axis-label')
         .attr('x', 230)
@@ -718,7 +673,6 @@ d3.csv('taxes.csv').then(function(data) {
         .attr('text-anchor', 'middle')
         .text('State');
 
-    // Add y-axis label
     svg.append('text')
         .attr('class', 'y-axis-label')
         .attr('transform', 'rotate(-90)')
@@ -727,13 +681,12 @@ d3.csv('taxes.csv').then(function(data) {
         .attr('text-anchor', 'middle')
         .text('Income Tax Rate');
 
-    // Add labels for bars
     bars.append('text')
         .attr('class', 'bar-label')
         .attr('x', d => xScale(d.State) + xScale.bandwidth() / 2)
         .attr('y', d => yScale(parseFloat(d.IncomeTaxRate)) - 5)
         .attr('text-anchor', 'middle')
-        .text(d => parseFloat(d.IncomeTaxRate).toFixed(2)); // Display income tax rate
+        .text(d => parseFloat(d.IncomeTaxRate).toFixed(2)); 
 });
 
 
@@ -764,9 +717,8 @@ d3.csv('taxes.csv').then(function(data) {
         .attr('height', 250)
         .attr('transform','translate(100,0)');
 
-    // Add an image to the third SVG container
     svgImageContainer2.append('image')
-        .attr('xlink:href', 'job.jpg') // Replace with the path to your image
+        .attr('xlink:href', 'job.jpg') 
         .attr('width', 250)
         .attr('height', 250)
         .on('mouseover', function() {
@@ -779,28 +731,22 @@ d3.csv('taxes.csv').then(function(data) {
         });
 
 
-// Load data from CSV
 d3.csv('job.csv').then(function(data) {
-    // Sort the data by Percent Job Growth in descending order
     data.sort((a, b) => parseFloat(b['Percent Job Growth']) - parseFloat(a['Percent Job Growth']));
 
-    // Select the top 10 states
     const topTenStates = data.slice(0, 10);
 
-    // Create scales for the bar graph
     const xScale = d3.scaleBand()
         .domain(topTenStates.map(d => d.State))
-        .range([60, 400]) // Adjusted range to accommodate labels
+        .range([60, 400])
         .padding(0.1);
 
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(topTenStates, d => parseFloat(d['Percent Job Growth']))])
-        .range([400, 40]); // Adjusted range to accommodate labels
+        .range([400, 40]); 
 
-    // Create SVG container for the bar graph
     const svg = d3.select('#bar-chart3').attr('transform','translate(200,-100)');
 
-    // Create bars
     const bars = svg.selectAll('.bar')
         .data(topTenStates)
         .enter().append('rect')
@@ -817,10 +763,9 @@ d3.csv('job.csv').then(function(data) {
         });
 
 
-    // Add labels for states on x-axis
     svg.append('g')
         .attr('class', 'x-axis')
-        .attr('transform', `translate(0, 400)`) // Position x-axis at bottom
+        .attr('transform', `translate(0, 400)`) 
         .call(d3.axisBottom(xScale))
         .selectAll('text')
         .attr('transform', 'rotate(-45)')
@@ -828,13 +773,11 @@ d3.csv('job.csv').then(function(data) {
         .attr('x', -10)
         .attr('y', 0);
 
-    // Add labels for rates on y-axis
     svg.append('g')
         .attr('class', 'y-axis')
-        .attr('transform', `translate(60, 0)`) // Position y-axis at left
+        .attr('transform', `translate(60, 0)`) 
         .call(d3.axisLeft(yScale));
 
-    // Add x-axis label
     svg.append('text')
         .attr('class', 'x-axis-label')
         .attr('x', 230)
@@ -842,7 +785,6 @@ d3.csv('job.csv').then(function(data) {
         .attr('text-anchor', 'middle')
         .text('State');
 
-    // Add y-axis label
     svg.append('text')
         .attr('class', 'y-axis-label')
         .attr('transform', 'rotate(-90)')
@@ -851,13 +793,12 @@ d3.csv('job.csv').then(function(data) {
         .attr('text-anchor', 'middle')
         .text('Percent Job Growth');
 
-    // Add labels for bars
     bars.append('text')
         .attr('class', 'bar-label')
         .attr('x', d => xScale(d.State) + xScale.bandwidth() / 2)
         .attr('y', d => yScale(parseFloat(d['Percent Job Growth'])) - 5)
         .attr('text-anchor', 'middle')
-        .text(d => parseFloat(d['Percent Job Growth']).toFixed(2)); // Display percent job growth
+        .text(d => parseFloat(d['Percent Job Growth']).toFixed(2)); 
 });
 
         
