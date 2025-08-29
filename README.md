@@ -1,3 +1,5 @@
+# [Link🔗](https://vbommisetty.github.io/dsc106-final-project/)
+
 # Writeup
 
 Our visualization aims to show decade-long crime statistics in San Diego's jurisdictions. Our visualization shows crime statistics from 2009 to 2021, with the size of each circle representing the crime rate within that jurisdiction and the color of the circle representing the proportion of violent crime within that jurisdiction. We decided to add interactivity by implementing a slider so viewers can change the year of the data they are viewing, and we added a tooltip so viewers can get more specific information on the jurisdiction that they are hovering over with their mouse. We considered not adding the percentage of violent crimes by changing the colors of the cirles; however, it would make the graph much too simple and the insights taken away from the graph would not be as impactful.
